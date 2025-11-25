@@ -1,0 +1,1 @@
+import{w as n,p as e}from"./chunk-ZYFC6VSF-RoJ6bjcO.js";function r({}){return[{title:"Words and Phrases"},{name:"description",content:""}]}const s=n(function(){return e.jsx("section",{className:"centered-container",children:"Coming soon..."})});export{s as default,r as meta};
