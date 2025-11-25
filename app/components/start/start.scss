@@ -1,0 +1,14 @@
+.start-page {
+  padding-top: 50px;
+  h1 {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+  button, label.btn {
+    max-width: 250px;
+    margin: 10px 0;
+  }
+  &__file-input {
+    visibility: hidden;
+  }
+}

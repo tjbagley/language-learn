@@ -1,0 +1,40 @@
+.search {
+  &__controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 50px;
+    gap: 15px;
+  }
+  &__field-wrapper {
+    position: relative;
+    flex-grow: 1;
+  }
+  &__field {
+    width: 100%
+  }
+  &__clear-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #9a9a9a;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+}
+
+.search--embedded {
+  .search__controls {
+    margin-bottom: 5px;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    span {
+      flex-grow: 1;
+    }
+  }
+}

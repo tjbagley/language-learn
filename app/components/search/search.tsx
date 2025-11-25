@@ -1,0 +1,89 @@
+import "./search.scss";
+
+import React, { useRef, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { search, selectSearchQuery, selectWordsBySearchQuery } from "~/store/slices/words-phrases.slice";
+import type { RootState } from "~/store/store";
+import { WordPhraseListView } from "../common/word-phrase/word-phrase-list-view";
+
+export interface SearchProps {
+  addClick?: (wordOrPhraseId: string) => void;
+}
+
+export function Search(props: SearchProps) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const searchTerm = useSelector((state: RootState) => selectSearchQuery(state));
+    const searchedWordsAndPhrases = useSelector((state: RootState) =>
+      selectWordsBySearchQuery(state)
+    );
+    const embeddedSearch = !!props.addClick;
+    let searchTimeout: any = null;
+    const placeholderText = embeddedSearch ? "Search for word or phrase to add to list" : "Search for word or phrase";
+  
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (searchTimeout) {
+        clearTimeout(searchTimeout);
+      }
+      searchTimeout = setTimeout(() => {
+        dispatch(search(event.target.value));
+      }, 300);    
+    };
+
+    const handleAddClick = () => {    
+      navigate("/words/new");   
+    }
+
+    const handleEmbeddedSearchAddClick = (id: string) => {
+      if (props.addClick) {
+        props.addClick(id);
+        clearSearchInput();
+      }
+    }
+
+    const handleWordClick = (id: string) => {
+      navigate(`/words/${id}`);
+    }
+
+    const clearSearchInput = () => {
+      if (searchInputRef.current) {
+        searchInputRef.current.value = '';
+      }
+      dispatch(search(""));
+    }
+
+    function renderItemsDefault(): React.ReactNode {
+      return searchedWordsAndPhrases.map((item, index) => (
+        <li key={index} onClick={() => handleWordClick(item.id)}>
+          <WordPhraseListView wordOrPhrase={item} />
+        </li>
+      ));
+    }
+
+    function renderEmbeddedSearchItems(): React.ReactNode {
+      if (!searchTerm) {
+        return null;
+      }
+      return searchedWordsAndPhrases.map((item, index) => (
+        <li key={index}><span>{item.value} {item.soundsLike} {item.meaning}</span><input type="button" value="Add" onClick={() => handleEmbeddedSearchAddClick(item.id)} /></li>
+      ));
+    }
+
+    return (
+      <div className={`search ${embeddedSearch ? 'search--embedded' : ''}`}>
+        <div className="search__controls">
+          <div className="search__field-wrapper">
+            <input ref={searchInputRef} className="search__field" type="text" placeholder={placeholderText} defaultValue={searchTerm} onChange={handleChange} />
+            {searchTerm && <button className="search__clear-btn" onClick={clearSearchInput}>×</button>}
+          </div>
+          {!embeddedSearch && <button onClick={handleAddClick}>Add</button>}
+        </div>
+        <ul className={`${embeddedSearch ? 'list--no-row-click' : ''}`}>
+          {!embeddedSearch && renderItemsDefault()}
+          {embeddedSearch && renderEmbeddedSearchItems()}
+        </ul>
+      </div>
+    )
+  }
