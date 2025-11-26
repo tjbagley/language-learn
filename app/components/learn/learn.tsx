@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/store/store";
 import { addRecentlyLearntWord, selectLearn, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect } from "~/store/slices/words-phrases.slice";
 import type { WordOrPhrase } from "~/models/word-or-phrase";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export function Learn() {
+  const wordRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [selectedWord, setSelectedWord] = useState<WordOrPhrase>();
   const learn = useSelector((state: RootState) =>
@@ -15,6 +16,9 @@ export function Learn() {
 
   useEffect(() => {
     dispatch(setupWordToLearn());
+    setTimeout(() => {
+      wordRef.current?.focus();
+    }, 100);
   }, [dispatch]);
 
   const randomiseList = (words: Array<WordOrPhrase | null | undefined>): WordOrPhrase[] => {
@@ -37,6 +41,10 @@ export function Learn() {
       dispatch(setupWordToLearn());
       
       setSelectedWord(undefined);
+
+      setTimeout(() => {
+        wordRef.current?.focus();
+      }, 100);
     }
   }
 
@@ -48,7 +56,7 @@ export function Learn() {
     return (
       <div className="learn">
         <div className="learn__word">
-          <div>{learn?.wordToLearn?.value}</div>
+          <div tabIndex={-1}>{learn?.wordToLearn?.value}</div>
           <div className="learn__sounds-like">{learn?.wordToLearn?.soundsLike}</div>
         </div>
         {selectedWord.id === learn?.wordToLearn?.id ? (
@@ -67,7 +75,7 @@ export function Learn() {
   return (
     <div className="learn">
       <div className="learn__word">
-        <div>{learn?.wordToLearn?.value}</div>
+        <div ref={wordRef} tabIndex={-1}>{learn?.wordToLearn?.value}</div>
         <div className="learn__sounds-like">{learn?.wordToLearn?.soundsLike}</div>
       </div>
       <div className="learn__choices">{randomisedChoices.map((item, index) => (

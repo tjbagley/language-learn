@@ -52,7 +52,6 @@ input, select, button, label.btn {
   color: #2d2d2d;
   border-radius: 5px;
   border: 1px solid #bebebe;
-  outline: none;
 }
 input {
   padding: 15px;
@@ -78,6 +77,10 @@ input[type="button"] {
   &:hover {
     border-color: #2d2d2d;
   }
+}
+
+h1, div, label {
+  outline: none;
 }
 
 .flex-spacer {
