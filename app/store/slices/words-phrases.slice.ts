@@ -110,8 +110,12 @@ export const wordsAndPhrasesSlice = createSlice({
               numCorrectInARow: 0
             };
           } 
-          word.learn.level += 1;
           word.learn.numCorrectInARow += 1;
+          const nextLevel = (word.learn.level || 0) + 1;
+          if (word.learn.numCorrectInARow >= nextLevel) {
+            word.learn.level = nextLevel;
+            word.learn.numCorrectInARow = 0;
+          }
           word.learn.date = moment().format("YYYY-MM-DD HH:mm:ss");     
         }
       }
