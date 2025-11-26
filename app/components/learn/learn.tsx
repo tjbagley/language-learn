@@ -18,7 +18,7 @@ export function Learn() {
     dispatch(setupWordToLearn());
     setTimeout(() => {
       wordRef.current?.focus();
-    }, 100);
+    }, 500);
   }, [dispatch]);
 
   const randomiseList = (words: Array<WordOrPhrase | null | undefined>): WordOrPhrase[] => {
@@ -44,7 +44,7 @@ export function Learn() {
 
       setTimeout(() => {
         wordRef.current?.focus();
-      }, 100);
+      }, 500);
     }
   }
 
