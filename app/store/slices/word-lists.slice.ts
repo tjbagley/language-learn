@@ -23,9 +23,12 @@ export const WordListsSlice = createSlice({
   name: 'wordLists',
   initialState,
   reducers: {
-    addWordList: (state, action: PayloadAction<WordList>) => {
-      const wordList = { ...action.payload, id: crypto.randomUUID() };
-      state.values.push(wordList);
+    addWordList: (state, action: PayloadAction<WordList>) => {      
+      if (!action.payload.id) {
+        action.payload.id = crypto.randomUUID();
+      }
+      state.values.push(action.payload);
+      state.values = sortLists(state.values);
     },
     updateWordList: (state, action: PayloadAction<WordList>) => {
       const wordList = state.values.find(c => c.id === action.payload.id);
@@ -33,6 +36,7 @@ export const WordListsSlice = createSlice({
         wordList.description = action.payload.description;
         wordList.items = action.payload.items;
       }
+      state.values = sortLists(state.values);
     },
     removeWordList: (state, action: PayloadAction<string>) => {
       state.values = state.values.filter(c => c.id !== action.payload);
@@ -61,3 +65,10 @@ export const selectWordListById = createSelector([selectAllWordLists, selectWord
     wordList?.id === id
   ) : null;
 });
+
+function sortLists(lists: WordList[]): WordList[] {
+  lists.sort((a: WordList, b: WordList): number => {
+    return a.description.localeCompare(b.description);
+  });
+  return lists;
+}

@@ -15,7 +15,7 @@ export function CategoryList() {
   }
 
   const handleCategoryClick = (id: string) => {
-    navigate(`/categories/${id}`);
+    navigate(`/category-view/${id}`);
   }
 
   return (

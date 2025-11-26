@@ -26,17 +26,26 @@ export function CategoryForm(props: CategoryFormProps) {
     if (initialCategory?.id) {
       dispatch(updateCategory(data));
     } else {
+      data.id = crypto.randomUUID();
       dispatch(addCategory(data));
     }
-    navigate("/categories");
+    navigate(`/category-view/${data.id}`);
   };
 
-  function handleRemove(): void {
+  const handleRemove = (): void => {
     if (initialCategory?.id && confirm("Are you sure you want to remove this category?")) {
       dispatch(removeCategoryFromWords(initialCategory.id));
       dispatch(removeCategory(initialCategory.id));
       navigate("/categories");
     }
+  }
+
+  const handleCancel = (): void => {
+    if (initialCategory?.id) {
+      navigate(`/category-view/${initialCategory.id}`); 
+    } else {
+      navigate("/categories");
+    }  
   }
 
   return (
@@ -52,7 +61,7 @@ export function CategoryForm(props: CategoryFormProps) {
 
       <div className="edit-form__buttons">
         <input type="submit" value="Save" />
-        <input type="button" value="Cancel" onClick={() => navigate("/categories")} />
+        <input type="button" value="Cancel" onClick={handleCancel} />
         {initialCategory?.id && <input type="button" value="Remove" onClick={handleRemove} />}
       </div>
 

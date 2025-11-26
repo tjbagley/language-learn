@@ -24,6 +24,9 @@
     outline: none;
     cursor: pointer;
   }
+  &__item-meaning {
+    color: #9a9a9a;
+  }
 }
 
 .search--embedded {
@@ -33,7 +36,7 @@
   li {
     display: flex;
     align-items: center;
-    span {
+    div {
       flex-grow: 1;
     }
   }

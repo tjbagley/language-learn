@@ -34,14 +34,18 @@ export const CategoriesSlice = createSlice({
   initialState,
   reducers: {
     addCategory: (state, action: PayloadAction<Category>) => {
-      const category = { ...action.payload, id: crypto.randomUUID() };
-      state.values.push(category);
+      if (!action.payload.id) {
+        action.payload.id = crypto.randomUUID();
+      }
+      state.values.push(action.payload);
+      state.values = sortCategories(state.values);
     },
     updateCategory: (state, action: PayloadAction<Category>) => {
       const category = state.values.find(c => c.id === action.payload.id);
       if (category) {
         category.description = action.payload.description;      
       }
+      state.values = sortCategories(state.values);
     },
     removeCategory: (state, action: PayloadAction<string>) => {
       state.values = state.values.filter(c => c.id !== action.payload);
@@ -65,3 +69,10 @@ export const selectCategoryById = createSelector([selectAllCategories, selectCat
     category?.id === id
   ) : null;
 });
+
+function sortCategories(lists: Category[]): Category[] {
+  lists.sort((a: Category, b: Category): number => {
+    return a.description.localeCompare(b.description);
+  });
+  return lists;
+}

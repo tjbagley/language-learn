@@ -10,6 +10,7 @@ export default [
         route("list-view/:id", "./routes/list-view.tsx"),
         route("categories", "./routes/categories.tsx"),
         route("categories/:id", "./routes/category.tsx"),
-        route("learn", "./routes/learn.tsx")
+        route("category-view/:id", "./routes/category-view-page.tsx"),
+        route("learn", "./routes/learn-page.tsx")
     ])
 ] satisfies RouteConfig;

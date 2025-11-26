@@ -12,6 +12,7 @@ export function WordPhraseListView(props: WordPhraseListViewProps) {
       <div className="word-phrase-list-view__value">{props.wordOrPhrase.value}</div>
       <div className="word-phrase-list-view__sounds-like">{props.wordOrPhrase.soundsLike}</div>
       <div className="word-phrase-list-view__meaning">{props.wordOrPhrase.meaning}</div>
+      {!!props.wordOrPhrase.learn?.level && <div className="word-phrase-list-view__level">learnt level: {props.wordOrPhrase.learn?.level}</div>}
     </div>
   );
 }

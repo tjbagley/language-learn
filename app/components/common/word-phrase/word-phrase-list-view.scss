@@ -1,9 +1,19 @@
 .word-phrase-list-view {
+  position: relative;
+  width: 100%;
   &__value {
     font-weight: bold;
     margin-bottom: 10px;
   }
   &__sounds-like {
     color: #9a9a9a;
+  }
+  &__level {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #cacaca;
   }
 }

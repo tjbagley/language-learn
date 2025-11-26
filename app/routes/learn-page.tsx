@@ -1,3 +1,4 @@
+import { Learn } from "~/components/learn/learn";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -7,10 +8,10 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Learn() {
+export default function LearnPage() {
   return (
     <section className="centered-container">
-      Coming soon...
+      <Learn />
     </section>
   );
 }

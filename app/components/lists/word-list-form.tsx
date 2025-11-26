@@ -37,9 +37,10 @@ export function WordListForm(props: WordListFormProps) {
     if (initialWordList?.id) {
       dispatch(updateWordList(wordList));
     } else {
+      wordList.id = crypto.randomUUID();
       dispatch(addWordList(wordList));
     }
-    navigate("/lists");
+    navigate(`/list-view/${wordList.id}`);
   };
 
   function handleRemove(): void {
@@ -47,6 +48,14 @@ export function WordListForm(props: WordListFormProps) {
       dispatch(removeWordList(initialWordList.id));
       navigate("/lists");
     }
+  }
+
+  const handleCancel = (): void => {
+    if (initialWordList?.id) {
+      navigate(`/list-view/${initialWordList.id}`); 
+    } else {
+      navigate("/lists");
+    }  
   }
 
   function getWordOrPhraseDisplay(wordOrPhraseId: string): string {
@@ -86,7 +95,7 @@ export function WordListForm(props: WordListFormProps) {
 
       <div className="edit-form__buttons">
         <input type="submit" value="Save" />
-        <input type="button" value="Cancel" onClick={() => navigate("/lists")} />
+        <input type="button" value="Cancel" onClick={handleCancel} />
         {initialWordList?.id && <input type="button" value="Remove" onClick={handleRemove} />}
       </div>
 

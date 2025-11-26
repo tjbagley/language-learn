@@ -1,6 +1,6 @@
 # Language Learn
 
-A React application that helps you learn a language like french by cataloguing a list of words to memorise
+A React app that helps you learn a language like french by cataloguing a list of words to memorise
 
 ## Getting Started
 

@@ -1,6 +1,6 @@
 import "./search.scss";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { search, selectSearchQuery, selectWordsBySearchQuery } from "~/store/slices/words-phrases.slice";
@@ -67,7 +67,7 @@ export function Search(props: SearchProps) {
         return null;
       }
       return searchedWordsAndPhrases.map((item, index) => (
-        <li key={index}><span>{item.value} {item.soundsLike} {item.meaning}</span><input type="button" value="Add" onClick={() => handleEmbeddedSearchAddClick(item.id)} /></li>
+        <li key={index}><div><span>{item.value}</span>&nbsp;-&nbsp;<span className="search__item-meaning">{item.meaning}</span></div><input type="button" value="Add" onClick={() => handleEmbeddedSearchAddClick(item.id)} /></li>
       ));
     }
 
