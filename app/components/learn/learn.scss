@@ -3,6 +3,9 @@
   flex-direction: column;
   align-items: center;
   &__word {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-bottom: 45px;
   }
   &__sounds-like {
