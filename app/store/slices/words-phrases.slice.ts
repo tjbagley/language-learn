@@ -89,7 +89,7 @@ export const wordsAndPhrasesSlice = createSlice({
       state.recentlyLearntWordsAndPhrases = action.payload;
     },
     setupWordToLearn: (state) => {
-      const wordToLearn = getRandomWordOrPhrase(state.values, [], [], state.recentlyLearntWordsAndPhrases);
+      const wordToLearn = getRandomWordOrPhraseWithLowestLearnLevel(state.values, [], [], state.recentlyLearntWordsAndPhrases);
       const choice1 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id], state.recentlyLearntWordsAndPhrases);
       const choice2 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id, choice1.id], state.recentlyLearntWordsAndPhrases);
       const learn = {
@@ -192,6 +192,20 @@ function getRandomWordOrPhrase(words: WordOrPhrase[], categoryIds: string[], exc
   
   const randomIndex = Math.floor(Math.random() * filteredWords.length);
   return filteredWords[randomIndex];
+}
+
+function getRandomWordOrPhraseWithLowestLearnLevel(words: WordOrPhrase[], categoryIds: string[], excludedWordOrPhraseIds: string[], recentlyLearntWordsAndPhrases: string[]): WordOrPhrase {
+  const randomWords = [];
+  for (let i=0; i<=10; i++) {
+    const word = getRandomWordOrPhrase(words, categoryIds, excludedWordOrPhraseIds, recentlyLearntWordsAndPhrases);
+    randomWords.push(word);
+  }
+  randomWords.sort((a: WordOrPhrase, b: WordOrPhrase): number => {
+    const aLevel = a.learn?.level || 0;
+    const bLevel = b.learn?.level || 0;
+    return aLevel - bLevel;
+  });
+  return randomWords[0];
 }
 
 function sortWordsAndPhrases(words: WordOrPhrase[]): WordOrPhrase[] {

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/store/store";
 import { addRecentlyLearntWord, selectLearn, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect } from "~/store/slices/words-phrases.slice";
 import type { WordOrPhrase } from "~/models/word-or-phrase";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export function Learn() {
   const dispatch = useDispatch();
@@ -54,7 +54,10 @@ export function Learn() {
         {selectedWord.id === learn?.wordToLearn?.id ? (
           <div className="learn__feedback--correct">Correct!</div>
         ) : (
-          <div className="learn__feedback--incorrect">Incorrect</div>
+          <React.Fragment>
+            <div className="learn__feedback--incorrect">Incorrect</div>
+            <div>Meaning: {learn?.wordToLearn?.meaning}</div>
+          </React.Fragment>
         )}
         <button className="learn__next-button" onClick={showNextWord}>Next</button>
       </div>
