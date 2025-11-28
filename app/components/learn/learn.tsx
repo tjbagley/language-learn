@@ -52,7 +52,7 @@ export function Learn() {
         focusWord();
 
         setIsLoading(false);
-      }, 500);
+      }, 250);
     }
   }
 

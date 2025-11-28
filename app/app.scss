@@ -74,8 +74,10 @@ input[type="button"] {
   padding: 6px 10px;
   text-align: center;
   cursor: pointer;
-  &:hover {
-    border-color: #2d2d2d;
+  @media(hover: hover) {
+    &:hover {
+      border-color: #2d2d2d;
+    }
   }
 }
 
