@@ -22,7 +22,7 @@ export function WordLists() {
     <React.Fragment>    
       <div className="list-header">
         <h1>Lists</h1>
-        <button onClick={handleAddClick}>Add</button>
+        <button onClick={handleAddClick} type="button">Add</button>
       </div>    
       <ul>{lists.map((item, index) => (
         <li key={index} onClick={() => handleListClick(item.id)}>{item.description}</li>

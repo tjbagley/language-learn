@@ -29,7 +29,7 @@ export function CategoryView(props: CategoryViewProps) {
     <React.Fragment>    
       <div className="list-header">
         <h1>{initialCategory?.description}</h1>
-        <button onClick={() => handleEditClick(initialCategory.id)}>Edit</button>
+        <button onClick={() => handleEditClick(initialCategory.id)} type="button">Edit</button>
       </div>    
       <ul className="list--no-row-click">
         {words?.map((item, index) => (

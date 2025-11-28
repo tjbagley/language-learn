@@ -22,7 +22,7 @@ export function CategoryList() {
     <React.Fragment>    
       <div className="list-header">
         <h1>Categories</h1>
-        <button onClick={handleAddClick}>Add</button>
+        <button onClick={handleAddClick} type="button">Add</button>
       </div>    
       <ul>{categories.map((item, index) => (
         <li key={index} onClick={() => handleCategoryClick(item.id)}>{item.description}</li>

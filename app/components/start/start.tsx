@@ -48,7 +48,7 @@ export function Start() {
     <main className="start-page">
       <section className="centered-container">
         <h1>Language Learn</h1>
-        <button onClick={handleNewLanguageClick}>New Language</button>
+        <button onClick={handleNewLanguageClick} type="button">New Language</button>
       
         <label htmlFor="file-upload" className="btn">Load Language</label>
         <input

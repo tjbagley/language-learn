@@ -24,7 +24,7 @@ function DefaultLayout() {
             <NavLink to="/lists">Lists</NavLink>
             <NavLink to="/categories">Categories</NavLink>
             <NavLink to="/learn">Learn</NavLink>
-            <button onClick={handleExport}>Export</button>
+            <button onClick={handleExport} type="button">Export</button>
         </nav>
       </header>
       <main>

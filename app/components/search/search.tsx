@@ -76,9 +76,9 @@ export function Search(props: SearchProps) {
         <div className="search__controls">
           <div className="search__field-wrapper">
             <input ref={searchInputRef} className="search__field" type="text" placeholder={placeholderText} defaultValue={searchTerm} onChange={handleChange} />
-            {searchTerm && <button className="search__clear-btn" onClick={clearSearchInput}>×</button>}
+            {searchTerm && <button className="search__clear-btn" onClick={clearSearchInput} type="button">×</button>}
           </div>
-          {!embeddedSearch && <button onClick={handleAddClick}>Add</button>}
+          {!embeddedSearch && <button onClick={handleAddClick} type="button">Add</button>}
         </div>
         <ul className={`${embeddedSearch ? 'list--no-row-click' : ''}`}>
           {!embeddedSearch && renderItemsDefault()}

@@ -30,7 +30,7 @@ export function WordListView(props: WordListViewProps) {
     <React.Fragment>
       <div className="list-header">
         <h1>{wordList?.description}</h1>
-        <button onClick={() => handleViewClick(props.id)}>Edit</button>
+        <button onClick={() => handleViewClick(props.id)} type="button">Edit</button>
       </div>
       <ul className="word-list-view__items list--no-row-click">
         {wordList?.items.map((item, index) => (

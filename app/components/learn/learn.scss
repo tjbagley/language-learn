@@ -14,13 +14,19 @@
   &__choices {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 35px;
     >* {
       width: 400px;
+      min-height: 42px;
     }
   }
   &__next-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-top: 45px;
+    min-width: 150px;
+    height: 42px;
   }
   &__feedback {
     &--correct {

@@ -5,20 +5,21 @@ import type { RootState } from "~/store/store";
 import { addRecentlyLearntWord, selectLearn, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect } from "~/store/slices/words-phrases.slice";
 import type { WordOrPhrase } from "~/models/word-or-phrase";
 import React, { useEffect, useRef, useState } from "react";
+import { Spinner } from "../common/spinner/spinner";
+import { set } from "react-hook-form";
 
 export function Learn() {
   const wordRef = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
   const [selectedWord, setSelectedWord] = useState<WordOrPhrase>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const learn = useSelector((state: RootState) =>
     selectLearn(state)
   );
 
   useEffect(() => {
     dispatch(setupWordToLearn());
-    setTimeout(() => {
-      wordRef.current?.focus();
-    }, 500);
+    focusWord();
   }, [dispatch]);
 
   const randomiseList = (words: Array<WordOrPhrase | null | undefined>): WordOrPhrase[] => {
@@ -36,16 +37,29 @@ export function Learn() {
   }
 
   const showNextWord = () => {
-    if (learn?.wordToLearn) {
-      dispatch(addRecentlyLearntWord(learn.wordToLearn));
-      dispatch(setupWordToLearn());
-      
-      setSelectedWord(undefined);
+    if (isLoading) {
+      return;
+    }
 
+    if (learn?.wordToLearn) {
+      setIsLoading(true);
       setTimeout(() => {
-        wordRef.current?.focus();
+        dispatch(addRecentlyLearntWord(learn.wordToLearn));
+        dispatch(setupWordToLearn());
+        
+        setSelectedWord(undefined);
+
+        focusWord();
+
+        setIsLoading(false);
       }, 500);
     }
+  }
+
+  const focusWord = () => {
+    setTimeout(() => {
+      wordRef.current?.focus();
+    }, 500);
   }
 
   if (!learn?.wordToLearn) {
@@ -67,7 +81,9 @@ export function Learn() {
             <div>Meaning: {learn?.wordToLearn?.meaning}</div>
           </React.Fragment>
         )}
-        <button className="learn__next-button" onClick={showNextWord}>Next</button>
+        <button className="learn__next-button" onClick={showNextWord} type="button">
+          {isLoading ? <Spinner /> : "Next"}
+        </button>
       </div>
     );
   }
@@ -79,7 +95,7 @@ export function Learn() {
         <div className="learn__sounds-like">{learn?.wordToLearn?.soundsLike}</div>
       </div>
       <div className="learn__choices">{randomisedChoices.map((item, index) => (
-        <button key={index} onClick={() => handleChoiceClick(item)}>{item.meaning}</button>
+        <button key={index} onClick={() => handleChoiceClick(item)} type="button">{item.meaning}</button>
       ))}</div>
     </div>
   );
