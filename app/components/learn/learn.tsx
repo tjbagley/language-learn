@@ -20,8 +20,7 @@ export function Learn() {
   const wordList = useSelector((state: RootState) => selectWordListById(state, whatToLearnListId));
 
   useEffect(() => {
-    dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
-    focusWord();
+    loadNextWord();
   }, [dispatch]);
 
   const randomiseList = (words: Array<WordOrPhrase | null | undefined>): WordOrPhrase[] => {
@@ -47,15 +46,17 @@ export function Learn() {
       setIsLoading(true);
       setTimeout(() => {
         dispatch(addRecentlyLearntWord(learn.wordToLearn));
-        dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
-        
-        setSelectedWord(undefined);
-
-        focusWord();
+        loadNextWord();
 
         setIsLoading(false);
       }, 100);
     }
+  }
+
+  const loadNextWord = () => {
+    dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
+    setSelectedWord(undefined);
+    focusWord();
   }
 
   const focusWord = () => {
