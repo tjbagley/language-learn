@@ -1,0 +1,1 @@
+import{p as e}from"./chunk-ZYFC6VSF-RoJ6bjcO.js";function i(t){return e.jsxs("div",{className:"section-header",children:[e.jsx("h1",{children:t.heading||""}),e.jsx("button",{onClick:t.onButtonClick,type:"button",children:t.buttonLabel})]})}export{i as S};
