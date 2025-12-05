@@ -1,9 +1,9 @@
 import { Learn } from "~/components/learn/learn";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Words and Phrases" },
+    { title: "Learn Words and Phrases" },
     { name: "description", content: "" },
   ];
 }

@@ -13,6 +13,10 @@ export interface WordsAndPhrasesState {
     choice1: WordOrPhrase;
     choice2: WordOrPhrase;
   };
+  wordEditReturnRoute?: {
+    route: string;
+    routeId?: string;
+  }
 }
 
 const initialState: WordsAndPhrasesState = {
@@ -83,13 +87,17 @@ export const wordsAndPhrasesSlice = createSlice({
       if (state.recentlyLearntWordsAndPhrases.length >= 20) {
         state.recentlyLearntWordsAndPhrases.shift();
       }
+      state.recentlyLearntWordsAndPhrases = state.recentlyLearntWordsAndPhrases.filter(id => id !== action.payload.id);
       state.recentlyLearntWordsAndPhrases.push(action.payload.id);
     },
     loadRecentlyLearntWordsAndPhrases: (state, action: PayloadAction<string[]>) => {
       state.recentlyLearntWordsAndPhrases = action.payload;
     },
-    setupWordToLearn: (state) => {
-      const wordToLearn = getRandomWordOrPhraseWithLowestLearnLevel(state.values, [], [], state.recentlyLearntWordsAndPhrases);
+    setupWordToLearn: (state, action: PayloadAction<string[]>) => {
+      const wordsInList = !!action.payload && action.payload.length > 0 ? state.values.filter(word => 
+        action.payload.includes(word.id)
+      ) : state.values; 
+      const wordToLearn = getRandomWordOrPhraseWithLowestLearnLevel(wordsInList, [], [], state.recentlyLearntWordsAndPhrases);
       const choice1 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id], state.recentlyLearntWordsAndPhrases);
       const choice2 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id, choice1.id], state.recentlyLearntWordsAndPhrases);
       const learn = {
@@ -136,12 +144,14 @@ export const wordsAndPhrasesSlice = createSlice({
           word.learn.date = moment().format("YYYY-MM-DD HH:mm:ss"); 
         }
       }
+    },
+    setWordEditReturnRoute: (state, action: PayloadAction<{ route: string; routeId?: string }>) => {
+      state.wordEditReturnRoute = action.payload;
     }
   }
 });
 
-export const { addWord, updateWord, removeWord, removeCategoryFromWords, search, loadWords, addRecentlyLearntWord, loadRecentlyLearntWordsAndPhrases, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect } = wordsAndPhrasesSlice.actions;
-
+export const { addWord, updateWord, removeWord, removeCategoryFromWords, search, loadWords, addRecentlyLearntWord, loadRecentlyLearntWordsAndPhrases, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect, setWordEditReturnRoute } = wordsAndPhrasesSlice.actions;
 // Export the slice reducer for use in the store configuration
 export default wordsAndPhrasesSlice.reducer
 
@@ -149,6 +159,7 @@ export const selectAllWordsAndPhrases = (state: RootState) => state.wordsAndPhra
 export const selectSearchQuery = (state: RootState) => state.wordsAndPhrases.searchQuery;
 export const selectRecentlyLearntWordsAndPhrases = (state: RootState) => state.wordsAndPhrases.recentlyLearntWordsAndPhrases;
 export const selectLearn = (state: RootState) => state.wordsAndPhrases.learn;
+export const selectWordEditReturnRoute = (state: RootState) => state.wordsAndPhrases.wordEditReturnRoute;
 
 export const selectWordsBySearchQuery = createSelector([selectAllWordsAndPhrases, selectSearchQuery], (words, query) => {
   return query ? words.filter(word =>
@@ -174,11 +185,15 @@ export const selectWordsByCategoryId = createSelector([selectAllWordsAndPhrases,
 function getRandomWordOrPhrase(words: WordOrPhrase[], categoryIds: string[], excludedWordOrPhraseIds: string[], recentlyLearntWordsAndPhrases: string[]): WordOrPhrase {
   let filteredWords = words;
   if (!excludedWordOrPhraseIds?.length) {
+    console.log("recentlyLearntWordsAndPhrases", JSON.stringify(recentlyLearntWordsAndPhrases));
     excludedWordOrPhraseIds = recentlyLearntWordsAndPhrases || [];
   }
   filteredWords = words.filter(word => !excludedWordOrPhraseIds.includes(word.id));
-  if (filteredWords.length === 0) {
-    filteredWords = words;
+  if (filteredWords.length === 0 && excludedWordOrPhraseIds.length > 0) {
+    filteredWords = words.filter(word => excludedWordOrPhraseIds[excludedWordOrPhraseIds.length - 1] !== word.id);
+    if (filteredWords.length === 0) {
+      filteredWords = words;
+    }
   }
 
   if (categoryIds && categoryIds.length > 0) {

@@ -50,7 +50,7 @@ export function Start() {
         <h1>Language Learn</h1>
         <button onClick={handleNewLanguageClick} type="button">New Language</button>
       
-        <label htmlFor="file-upload" className="btn">Load Language</label>
+        <label htmlFor="file-upload" className="btn">Load Language From File</label>
         <input
           onChange={handleFileUploadChange}
           className="start-page__file-input"

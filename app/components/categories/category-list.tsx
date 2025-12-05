@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectAllCategories } from "~/store/slices/categories.slice";
 import type { RootState } from "~/store/store";
+import { SectionHeader } from "../common/section-header/section-header";
 
 export function CategoryList() {
   const navigate = useNavigate();
@@ -19,11 +20,8 @@ export function CategoryList() {
   }
 
   return (
-    <React.Fragment>    
-      <div className="list-header">
-        <h1>Categories</h1>
-        <button onClick={handleAddClick} type="button">Add</button>
-      </div>    
+    <React.Fragment>   
+      <SectionHeader heading="Categories" buttonLabel="Add" onButtonClick={handleAddClick} />
       <ul>{categories.map((item, index) => (
         <li key={index} onClick={() => handleCategoryClick(item.id)}>{item.description}</li>
       ))}</ul>

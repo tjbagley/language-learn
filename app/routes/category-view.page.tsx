@@ -1,20 +1,20 @@
-import { WordListForm } from "~/components/lists/word-list-form";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 import { useParams } from "react-router";
+import { CategoryView } from "~/components/categories/category-view";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "List" },
+    { title: "Category View" },
     { name: "description", content: "" },
   ];
 }
 
-export default function WordList() {
+export default function CategoryViewPage() {
   const { id } = useParams();
 
   return (
     <section className="centered-container">
-      <WordListForm id={id} />
+      <CategoryView id={id} />
     </section>
   );
 }

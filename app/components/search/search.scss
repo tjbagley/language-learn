@@ -1,3 +1,5 @@
+@use "../../variables";
+
 .search {
   &__controls {
     display: flex;
@@ -18,14 +20,14 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 16px;
-    color: #9a9a9a;
+    color: variables.$color-neutral-01;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
   }
   &__item-meaning {
-    color: #9a9a9a;
+    color: variables.$color-neutral-01;
   }
 }
 

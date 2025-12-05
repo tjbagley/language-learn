@@ -1,20 +1,20 @@
-import type { Route } from "./+types/home";
 import { useParams } from "react-router";
-import { CategoryView } from "~/components/categories/category-view";
+import type { Route } from "../+types/root";
+import { WordListView } from "~/components/lists/word-list-view";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Category" },
+    { title: "List View" },
     { name: "description", content: "" },
   ];
 }
 
-export default function Category() {
+export default function ListViewPage() {
   const { id } = useParams();
 
   return (
     <section className="centered-container">
-      <CategoryView id={id} />
+      {id && <WordListView id={id} />}
     </section>
   );
 }

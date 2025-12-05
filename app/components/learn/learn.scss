@@ -1,3 +1,5 @@
+@use "../../variables";
+
 .learn {
   display: flex;
   flex-direction: column;
@@ -7,17 +9,28 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 45px;
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0;
+    }
   }
   &__sounds-like {
-    color: #9a9a9a;
+    color: variables.$color-neutral-01;
   }
   &__choices {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 35px;
+    width: 100%;
     >* {
-      width: 400px;
+      width: 100%;
+      max-width: 400px;
       min-height: 42px;
+      @media (min-width: variables.$device-width-tablet-portrait) {
+        width: 400px;
+      }
     }
   }
   &__next-button {
@@ -38,5 +51,22 @@
       font-weight: bold;
       margin-bottom: 10px;
     }
+  }
+}
+
+.learn__selection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 35px;
+  width: 100%;
+  label {
+    font-weight: 600;
+  }
+  select {
+    flex-grow: 1;
+    padding: 5px 10px;
+    max-width: 400px;
   }
 }

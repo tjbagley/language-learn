@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import { selectAllWordLists } from "~/store/slices/word-lists.slice";
 import type { RootState } from "~/store/store";
+import { SectionHeader } from "../common/section-header/section-header";
 
 export function WordLists() {
   const navigate = useNavigate();
@@ -20,10 +21,7 @@ export function WordLists() {
 
   return (
     <React.Fragment>    
-      <div className="list-header">
-        <h1>Lists</h1>
-        <button onClick={handleAddClick} type="button">Add</button>
-      </div>    
+      <SectionHeader heading="Lists" buttonLabel="Add" onButtonClick={handleAddClick} />
       <ul>{lists.map((item, index) => (
         <li key={index} onClick={() => handleListClick(item.id)}>{item.description}</li>
       ))}</ul>

@@ -3,7 +3,7 @@ import "./search.scss";
 import React, { useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import { search, selectSearchQuery, selectWordsBySearchQuery } from "~/store/slices/words-phrases.slice";
+import { search, selectSearchQuery, selectWordsBySearchQuery, setWordEditReturnRoute } from "~/store/slices/words-phrases.slice";
 import type { RootState } from "~/store/store";
 import { WordPhraseListView } from "../common/word-phrase/word-phrase-list-view";
 
@@ -44,6 +44,7 @@ export function Search(props: SearchProps) {
     }
 
     const handleWordClick = (id: string) => {
+      dispatch(setWordEditReturnRoute({ route: "/words" }));
       navigate(`/words/${id}`);
     }
 

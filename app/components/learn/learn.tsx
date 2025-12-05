@@ -6,19 +6,21 @@ import { addRecentlyLearntWord, selectLearn, setupWordToLearn, setWordLearntAsCo
 import type { WordOrPhrase } from "~/models/word-or-phrase";
 import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "../common/spinner/spinner";
-import { set } from "react-hook-form";
+import { selectAllWordLists, selectWordListById } from "~/store/slices/word-lists.slice";
 
 export function Learn() {
-  const wordRef = useRef<HTMLDivElement>(null);
+  const whatToLearnListIdKey = "whatToLearnListId";
+  const wordRef = useRef<HTMLHeadingElement>(null);
   const dispatch = useDispatch();
   const [selectedWord, setSelectedWord] = useState<WordOrPhrase>();
+  const learn = useSelector((state: RootState) => selectLearn(state));
+  const lists = useSelector((state: RootState) => selectAllWordLists(state));
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const learn = useSelector((state: RootState) =>
-    selectLearn(state)
-  );
+  const [whatToLearnListId, setWhatToLearnListId] = useState<string>(localStorage.getItem(whatToLearnListIdKey) || "");
+  const wordList = useSelector((state: RootState) => selectWordListById(state, whatToLearnListId));
 
   useEffect(() => {
-    dispatch(setupWordToLearn());
+    dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
     focusWord();
   }, [dispatch]);
 
@@ -45,14 +47,14 @@ export function Learn() {
       setIsLoading(true);
       setTimeout(() => {
         dispatch(addRecentlyLearntWord(learn.wordToLearn));
-        dispatch(setupWordToLearn());
+        dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
         
         setSelectedWord(undefined);
 
         focusWord();
 
         setIsLoading(false);
-      }, 250);
+      }, 100);
     }
   }
 
@@ -62,6 +64,27 @@ export function Learn() {
     }, 500);
   }
 
+  const handleWhatToLearnListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const listId = e.target.value;
+    setWhatToLearnListId(listId);
+    localStorage.setItem(whatToLearnListIdKey, listId);
+    showNextWord();
+  }
+
+  const renderWhatToLearnSelection = (): React.ReactNode => {
+    return (
+      <div className="learn__selection">
+        <label>Learn</label>
+        <select defaultValue={whatToLearnListId} onChange={e => handleWhatToLearnListChange(e)}>
+          <option value="">Everything</option>
+          {lists.map((item, index) => (
+            <option key={index} value={item.id}>{item.description}</option>
+          ))}
+        </select>
+      </div>
+    );
+  }
+
   if (!learn?.wordToLearn) {
     return null;
   }
@@ -69,8 +92,9 @@ export function Learn() {
   if (selectedWord) {
     return (
       <div className="learn">
+        {renderWhatToLearnSelection()}        
         <div className="learn__word">
-          <div tabIndex={-1}>{learn?.wordToLearn?.value}</div>
+          <h1 tabIndex={-1}>{learn?.wordToLearn?.value}</h1>
           <div className="learn__sounds-like">{learn?.wordToLearn?.soundsLike}</div>
         </div>
         {selectedWord.id === learn?.wordToLearn?.id ? (
@@ -90,8 +114,9 @@ export function Learn() {
 
   return (
     <div className="learn">
+      {renderWhatToLearnSelection()}
       <div className="learn__word">
-        <div ref={wordRef} tabIndex={-1}>{learn?.wordToLearn?.value}</div>
+        <h1 ref={wordRef} tabIndex={-1}>{learn?.wordToLearn?.value}</h1>
         <div className="learn__sounds-like">{learn?.wordToLearn?.soundsLike}</div>
       </div>
       <div className="learn__choices">{randomisedChoices.map((item, index) => (

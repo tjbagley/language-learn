@@ -1,5 +1,5 @@
 import { CategoryList } from "~/components/categories/category-list";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,7 +8,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Words() {
+export default function CategoriesPage() {
   return (
     <section className="centered-container">
       <CategoryList />

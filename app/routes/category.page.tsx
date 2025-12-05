@@ -1,20 +1,20 @@
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 import { useParams } from "react-router";
-import { WordForm } from "~/components/word-form/word-form";
+import { CategoryForm } from "~/components/categories/category-form";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "Word or Phrase" },
+    { title: "Category" },
     { name: "description", content: "" },
   ];
 }
 
-export default function Word() {
+export default function CategoryPage() {
   const { id } = useParams();
 
   return (
     <section className="centered-container">
-      <WordForm id={id} />
+      <CategoryForm id={id} />
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import { WordLists } from "~/components/lists/word-lists";
-import type { Route } from "./+types/home";
+import type { Route } from "../+types/root";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,7 +8,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export default function Lists() {
+export default function ListsPage() {
   return (
     <section className="centered-container">
       <WordLists />
