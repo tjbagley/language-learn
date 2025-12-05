@@ -67,9 +67,9 @@ export function Learn() {
 
   const handleWhatToLearnListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const listId = e.target.value;
-    setWhatToLearnListId(listId);
     localStorage.setItem(whatToLearnListIdKey, listId);
-    showNextWord();
+    setWhatToLearnListId(listId);
+    loadNextWord();
   }
 
   const renderWhatToLearnSelection = (): React.ReactNode => {
