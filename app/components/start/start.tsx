@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import type { ExportModel } from "~/models/export.model";
 import { loadCategories } from "~/store/slices/categories.slice";
 import { store } from "~/store/store";
-import { loadRecentlyLearntWordsAndPhrases, loadWords } from "~/store/slices/words-phrases.slice";
+import { loadRecentlyLearntWordsAndPhrases, loadWords, setWhatToLearnListId } from "~/store/slices/words-phrases.slice";
 import { loadWordLists } from "~/store/slices/word-lists.slice";
 import { ExportHelper } from "~/helpers/export.helper";
 
@@ -36,6 +36,11 @@ export function Start() {
           }
           if (model?.language?.learn?.recentWordsAndPhrases && model.language.learn.recentWordsAndPhrases.length > 0) {
             store.dispatch(loadRecentlyLearntWordsAndPhrases(model.language.learn.recentWordsAndPhrases));
+          }
+          if (model?.language?.learn?.whatToLearnListId) {
+            store.dispatch(setWhatToLearnListId(model.language.learn.whatToLearnListId));
+          } else {
+            store.dispatch(setWhatToLearnListId(""));
           }
           navigate("/words");
         }

@@ -2,26 +2,25 @@ import "./learn.scss";
 
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "~/store/store";
-import { addRecentlyLearntWord, selectLearn, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect } from "~/store/slices/words-phrases.slice";
+import { addRecentlyLearntWord, selectAllWordsAndPhrases, selectLearn, selectWhatToLearnListId, setupWordToLearn, setWhatToLearnListId, setWordLearntAsCorrect, setWordLearntAsIncorrect } from "~/store/slices/words-phrases.slice";
 import type { WordOrPhrase } from "~/models/word-or-phrase";
 import React, { useEffect, useRef, useState } from "react";
 import { Spinner } from "../common/spinner/spinner";
-import { selectAllWordLists, selectWordListById } from "~/store/slices/word-lists.slice";
+import { selectAllWordLists } from "~/store/slices/word-lists.slice";
 
 export function Learn() {
-  const whatToLearnListIdKey = "whatToLearnListId";
   const wordRef = useRef<HTMLHeadingElement>(null);
   const dispatch = useDispatch();
   const [selectedWord, setSelectedWord] = useState<WordOrPhrase>();
   const learn = useSelector((state: RootState) => selectLearn(state));
   const lists = useSelector((state: RootState) => selectAllWordLists(state));
+  const whatToLearnListId = useSelector((state: RootState) => selectWhatToLearnListId(state));
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [whatToLearnListId, setWhatToLearnListId] = useState<string>(localStorage.getItem(whatToLearnListIdKey) || "");
-  const wordList = useSelector((state: RootState) => selectWordListById(state, whatToLearnListId));
+  const words = useSelector((state: RootState) => selectAllWordsAndPhrases(state));
 
   useEffect(() => {
-    loadNextWord();
-  }, [dispatch]);
+    loadNextWord(whatToLearnListId || "");
+  }, []);
 
   const randomiseList = (words: Array<WordOrPhrase | null | undefined>): WordOrPhrase[] => {
     return words.filter(w => !!w).sort(() => Math.random() - 0.5);
@@ -46,15 +45,17 @@ export function Learn() {
       setIsLoading(true);
       setTimeout(() => {
         dispatch(addRecentlyLearntWord(learn.wordToLearn));
-        loadNextWord();
+        loadNextWord(whatToLearnListId || "");
 
         setIsLoading(false);
       }, 100);
     }
   }
 
-  const loadNextWord = () => {
-    dispatch(setupWordToLearn(wordList ? wordList.items.map(i => i.wordOrPhraseId) : []));
+  const loadNextWord = (listId: string) => {
+    const list = listId ? lists.find(l => l.id === listId) : null;
+    const wordList = words?.filter(w => list?.items?.some(i => i.wordOrPhraseId === w.id));
+    dispatch(setupWordToLearn(wordList ? wordList.map(w => w.id) : []));
     setSelectedWord(undefined);
     focusWord();
   }
@@ -67,9 +68,8 @@ export function Learn() {
 
   const handleWhatToLearnListChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const listId = e.target.value;
-    localStorage.setItem(whatToLearnListIdKey, listId);
-    setWhatToLearnListId(listId);
-    loadNextWord();
+    dispatch(setWhatToLearnListId(listId));
+    loadNextWord(listId);
   }
 
   const renderWhatToLearnSelection = (): React.ReactNode => {

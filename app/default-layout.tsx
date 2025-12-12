@@ -11,9 +11,10 @@ function DefaultLayout() {
   const words = useSelector((state: RootState) => selectAllWordsAndPhrases(state));
   const lists = useSelector((state: RootState) => selectAllWordLists(state));
   const recentlyLearntWordsAndPhrases = useSelector((state: RootState) => selectRecentlyLearntWordsAndPhrases(state));
+  const whatToLearnListId = useSelector((state: RootState) => state.wordsAndPhrases.whatToLearnListId);
 
   const handleExport = () => {
-    ExportHelper.export(words, categories, lists, recentlyLearntWordsAndPhrases);
+    ExportHelper.export(words, categories, lists, recentlyLearntWordsAndPhrases, whatToLearnListId);
   };
 
   return (

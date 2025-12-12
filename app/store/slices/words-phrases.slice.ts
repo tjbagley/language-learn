@@ -8,6 +8,7 @@ export interface WordsAndPhrasesState {
   values: WordOrPhrase[];
   searchQuery?: string;
   recentlyLearntWordsAndPhrases: string[];
+  whatToLearnListId?: string;
   learn?: {
     wordToLearn: WordOrPhrase;
     choice1: WordOrPhrase;
@@ -23,7 +24,7 @@ const initialState: WordsAndPhrasesState = {
   values: [{
     id: '1',
     value: 'bonjour',
-    soundsLike: 'bon[d] jaw',
+    soundsLike: 'bon[d] [a]zure',
     meaning: 'Good morning',
     categories: ['5']
   },{
@@ -96,7 +97,7 @@ export const wordsAndPhrasesSlice = createSlice({
     setupWordToLearn: (state, action: PayloadAction<string[]>) => {
       const wordsInList = !!action.payload && action.payload.length > 0 ? state.values.filter(word => 
         action.payload.includes(word.id)
-      ) : state.values; 
+      ) : state.values;
       const wordToLearn = getRandomWordOrPhraseWithLowestLearnLevel(wordsInList, [], [], state.recentlyLearntWordsAndPhrases);
       const choice1 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id], state.recentlyLearntWordsAndPhrases);
       const choice2 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id, choice1.id], state.recentlyLearntWordsAndPhrases);
@@ -145,13 +146,16 @@ export const wordsAndPhrasesSlice = createSlice({
         }
       }
     },
+    setWhatToLearnListId: (state, action: PayloadAction<string | undefined>) => {
+      state.whatToLearnListId = action.payload;
+    },
     setWordEditReturnRoute: (state, action: PayloadAction<{ route: string; routeId?: string }>) => {
       state.wordEditReturnRoute = action.payload;
     }
   }
 });
 
-export const { addWord, updateWord, removeWord, removeCategoryFromWords, search, loadWords, addRecentlyLearntWord, loadRecentlyLearntWordsAndPhrases, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect, setWordEditReturnRoute } = wordsAndPhrasesSlice.actions;
+export const { addWord, updateWord, removeWord, removeCategoryFromWords, search, loadWords, addRecentlyLearntWord, loadRecentlyLearntWordsAndPhrases, setupWordToLearn, setWordLearntAsCorrect, setWordLearntAsIncorrect, setWhatToLearnListId, setWordEditReturnRoute } = wordsAndPhrasesSlice.actions;
 // Export the slice reducer for use in the store configuration
 export default wordsAndPhrasesSlice.reducer
 
@@ -159,6 +163,7 @@ export const selectAllWordsAndPhrases = (state: RootState) => state.wordsAndPhra
 export const selectSearchQuery = (state: RootState) => state.wordsAndPhrases.searchQuery;
 export const selectRecentlyLearntWordsAndPhrases = (state: RootState) => state.wordsAndPhrases.recentlyLearntWordsAndPhrases;
 export const selectLearn = (state: RootState) => state.wordsAndPhrases.learn;
+export const selectWhatToLearnListId = (state: RootState) => state.wordsAndPhrases.whatToLearnListId;
 export const selectWordEditReturnRoute = (state: RootState) => state.wordsAndPhrases.wordEditReturnRoute;
 
 export const selectWordsBySearchQuery = createSelector([selectAllWordsAndPhrases, selectSearchQuery], (words, query) => {
@@ -185,7 +190,6 @@ export const selectWordsByCategoryId = createSelector([selectAllWordsAndPhrases,
 function getRandomWordOrPhrase(words: WordOrPhrase[], categoryIds: string[], excludedWordOrPhraseIds: string[], recentlyLearntWordsAndPhrases: string[]): WordOrPhrase {
   let filteredWords = words;
   if (!excludedWordOrPhraseIds?.length) {
-    console.log("recentlyLearntWordsAndPhrases", JSON.stringify(recentlyLearntWordsAndPhrases));
     excludedWordOrPhraseIds = recentlyLearntWordsAndPhrases || [];
   }
   filteredWords = words.filter(word => !excludedWordOrPhraseIds.includes(word.id));

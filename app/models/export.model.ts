@@ -12,6 +12,7 @@ export interface ExportLanguage {
   wordsOrPhrases: WordOrPhrase[];
   learn?: {
     recentWordsAndPhrases: string[];
+    whatToLearnListId?: string;
   };
   dialogues?: WordList[];
 }

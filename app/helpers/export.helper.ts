@@ -8,13 +8,14 @@ import type { WordOrPhrase } from "~/models/word-or-phrase";
 export class ExportHelper {
   public static lastLoadedFileName: string = "";
 
-  public static export(words: WordOrPhrase[], categories: Category[], lists: WordList[], recentlyLearntWordsAndPhrases: string[]): void {
+  public static export(words: WordOrPhrase[], categories: Category[], lists: WordList[], recentlyLearntWordsAndPhrases: string[], whatToLearnListId?: string): void {
     const model: ExportModel = {
       language: {
         wordsOrPhrases: words || [],
         dialogues: lists || [],
         learn: {
-          recentWordsAndPhrases: recentlyLearntWordsAndPhrases || []
+          recentWordsAndPhrases: recentlyLearntWordsAndPhrases || [],
+          whatToLearnListId: whatToLearnListId
         }
       },
       categories: categories || [],

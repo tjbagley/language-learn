@@ -64,7 +64,6 @@ export function WordListForm(props: WordListFormProps) {
   }
 
   function handleItemAddClick(wordOrPhraseId: string): void {
-    console.log("Add item: " + wordOrPhraseId);
     appendItem({ actor: '', wordOrPhraseId: wordOrPhraseId });
   }
 
