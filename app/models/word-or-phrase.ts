@@ -7,9 +7,9 @@ export interface WordOrPhraseBasic {
 }
 
 export interface WordOrPhrase extends WordOrPhraseBasic {
-    learn?: {
-      level: number;
-      date: string;
-      numCorrectInARow: number;
-    };
-  }
+  learn?: {
+    level: number;
+    date: string;
+    numCorrectInARow: number;
+  };
+}

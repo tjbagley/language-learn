@@ -49,7 +49,7 @@ export function Search(props: SearchProps) {
     }
 
     const clearSearchInput = () => {
-      if (searchInputRef.current) {
+      if (searchInputRef?.current) {
         searchInputRef.current.value = '';
       }
       dispatch(search(""));
@@ -57,7 +57,7 @@ export function Search(props: SearchProps) {
 
     function renderItemsDefault(): React.ReactNode {
       return searchedWordsAndPhrases.map((item, index) => (
-        <li key={index} onClick={() => handleWordClick(item.id)}>
+        <li key={index} onClick={() => handleWordClick(item.id)} data-testid={`search-item-${index}`}>
           <WordPhraseListView wordOrPhrase={item} />
         </li>
       ));
@@ -68,7 +68,7 @@ export function Search(props: SearchProps) {
         return null;
       }
       return searchedWordsAndPhrases.map((item, index) => (
-        <li key={index}><div><span>{item.value}</span>&nbsp;-&nbsp;<span className="search__item-meaning">{item.meaning}</span></div><input type="button" value="Add" onClick={() => handleEmbeddedSearchAddClick(item.id)} /></li>
+        <li key={index} data-testid={`search-item-${index}`}><div><span>{item.value}</span>&nbsp;-&nbsp;<span className="search__item-meaning">{item.meaning}</span></div><input type="button" value="Add" onClick={() => handleEmbeddedSearchAddClick(item.id)} /></li>
       ));
     }
 

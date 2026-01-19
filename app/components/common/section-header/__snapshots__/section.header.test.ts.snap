@@ -1,0 +1,17 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SectionHeader > matches snapshot 1`] = `
+<div
+  className="section-header"
+>
+  <h1>
+    Test Heading
+  </h1>
+  <button
+    onClick={[Function]}
+    type="button"
+  >
+    Click Me
+  </button>
+</div>
+`;

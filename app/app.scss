@@ -25,7 +25,7 @@ header {
     gap: 42px;
     a {      
       font-weight: 600;
-      color: #9a9a9a;
+      color: variables.$color-neutral-01;
       text-decoration: none;
       &.active {
         color: variables.$color-copy;

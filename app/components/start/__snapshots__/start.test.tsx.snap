@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Start > matches snapshot 1`] = `
+<main
+  className="start-page"
+>
+  <section
+    className="centered-container"
+  >
+    <h1>
+      Language Learn
+    </h1>
+    <button
+      onClick={[Function]}
+      type="button"
+    >
+      New Language
+    </button>
+    <label
+      className="btn"
+      htmlFor="file-upload"
+    >
+      Load Language From File
+    </label>
+    <input
+      className="start-page__file-input"
+      id="file-upload"
+      onChange={[Function]}
+      type="file"
+    />
+  </section>
+</main>
+`;

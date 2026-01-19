@@ -46,15 +46,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   useEffect(() => {
-  const unloadCallback = (event: BeforeUnloadEvent) => {
-    event.preventDefault();
-    event.returnValue = "";
-    return "";
-  };
+    const unloadCallback = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+      return "";
+    };
 
-  window.addEventListener("beforeunload", unloadCallback);
-  return () => window.removeEventListener("beforeunload", unloadCallback);
-}, []);
+    window.addEventListener("beforeunload", unloadCallback);
+    return () => window.removeEventListener("beforeunload", unloadCallback);
+  }, []);
 
   return (
     <Provider store={store}>

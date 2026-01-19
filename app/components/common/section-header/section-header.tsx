@@ -1,7 +1,7 @@
 import "./section-header.scss";
 
 export interface SectionHeaderProps {
-  heading: string | null |undefined;
+  heading: string | null | undefined;
   buttonLabel: string;
   onButtonClick?: () => void;
 }
