@@ -2,6 +2,10 @@
 
 A React app that helps you learn a language like french by cataloguing a list of words to memorise
 
+## Demo
+
+https://tjbagley.github.io/language-learn/
+
 ## Getting Started
 
 ### Installation
