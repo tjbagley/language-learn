@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store';
 import type { WordOrPhrase, WordOrPhraseBasic } from '~/models/word-or-phrase';
 import moment from 'moment';
+import { WordHelper } from '~/helpers/word.helper';
 
 export interface WordsAndPhrasesState {
   values: WordOrPhrase[];
@@ -98,9 +99,9 @@ export const wordsAndPhrasesSlice = createSlice({
       const wordsInList = !!action.payload && action.payload.length > 0 ? state.values.filter(word => 
         action.payload.includes(word.id)
       ) : state.values;
-      const wordToLearn = getRandomWordOrPhraseWithLowestLearnLevel(wordsInList, [], [], state.recentlyLearntWordsAndPhrases);
-      const choice1 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id], state.recentlyLearntWordsAndPhrases);
-      const choice2 = getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id, choice1.id], state.recentlyLearntWordsAndPhrases);
+      const wordToLearn = WordHelper.getRandomWordOrPhraseWithLowestLearnLevel(wordsInList, [], [], state.recentlyLearntWordsAndPhrases);
+      const choice1 = WordHelper.getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id], state.recentlyLearntWordsAndPhrases);
+      const choice2 = WordHelper.getRandomWordOrPhrase(state.values, wordToLearn.categories, [wordToLearn.id, choice1.id], state.recentlyLearntWordsAndPhrases);
       const learn = {
         wordToLearn: wordToLearn,
         choice1: choice1,
@@ -111,39 +112,13 @@ export const wordsAndPhrasesSlice = createSlice({
     setWordLearntAsCorrect: (state) => {
       if (state.learn?.wordToLearn) {
         const word = state.values.find(wp => wp.id === state.learn?.wordToLearn.id);
-        if (word) {
-          if (!word.learn) {
-            word.learn = {
-              level: 0,
-              date: "",
-              numCorrectInARow: 0
-            };
-          } 
-          word.learn.numCorrectInARow += 1;
-          const nextLevel = (word.learn.level || 0) + 1;
-          if (word.learn.numCorrectInARow >= nextLevel) {
-            word.learn.level = nextLevel;
-            word.learn.numCorrectInARow = 0;
-          }
-          word.learn.date = moment().format("YYYY-MM-DD HH:mm:ss");     
-        }
+        WordHelper.markAsLearntCorrect(word);
       }
     },
     setWordLearntAsIncorrect: (state) => {
       if (state.learn?.wordToLearn) {
         const word = state.values.find(wp => wp.id === state.learn?.wordToLearn.id);
-        if (word) {
-          if (!word.learn) {
-            word.learn = {
-              level: 0,
-              date: "",
-              numCorrectInARow: 0
-            };
-          }
-          word.learn.level = 0;
-          word.learn.numCorrectInARow = 0;
-          word.learn.date = moment().format("YYYY-MM-DD HH:mm:ss"); 
-        }
+        WordHelper.markAsLearntIncorrect(word);
       }
     },
     setWhatToLearnListId: (state, action: PayloadAction<string | undefined>) => {
@@ -186,46 +161,6 @@ export const selectWordsByCategoryId = createSelector([selectAllWordsAndPhrases,
     word?.categories?.includes(id)
   ) : [];
 });
-
-function getRandomWordOrPhrase(words: WordOrPhrase[], categoryIds: string[], excludedWordOrPhraseIds: string[], recentlyLearntWordsAndPhrases: string[]): WordOrPhrase {
-  let filteredWords = words;
-  if (!excludedWordOrPhraseIds?.length) {
-    excludedWordOrPhraseIds = recentlyLearntWordsAndPhrases || [];
-  }
-  filteredWords = words.filter(word => !excludedWordOrPhraseIds.includes(word.id));
-  if (filteredWords.length === 0 && excludedWordOrPhraseIds.length > 0) {
-    filteredWords = words.filter(word => excludedWordOrPhraseIds[excludedWordOrPhraseIds.length - 1] !== word.id);
-    if (filteredWords.length === 0) {
-      filteredWords = words;
-    }
-  }
-
-  if (categoryIds && categoryIds.length > 0) {
-    const categoryFilteredWords = filteredWords.filter(word =>
-      word.categories.some(categoryId => categoryIds.includes(categoryId))
-    );
-    if (categoryFilteredWords.length > 0) {
-      filteredWords = categoryFilteredWords;
-    }
-  }
-  
-  const randomIndex = Math.floor(Math.random() * filteredWords.length);
-  return filteredWords[randomIndex];
-}
-
-function getRandomWordOrPhraseWithLowestLearnLevel(words: WordOrPhrase[], categoryIds: string[], excludedWordOrPhraseIds: string[], recentlyLearntWordsAndPhrases: string[]): WordOrPhrase {
-  const randomWords = [];
-  for (let i=0; i<=10; i++) {
-    const word = getRandomWordOrPhrase(words, categoryIds, excludedWordOrPhraseIds, recentlyLearntWordsAndPhrases);
-    randomWords.push(word);
-  }
-  randomWords.sort((a: WordOrPhrase, b: WordOrPhrase): number => {
-    const aLevel = a.learn?.level || 0;
-    const bLevel = b.learn?.level || 0;
-    return aLevel - bLevel;
-  });
-  return randomWords[0];
-}
 
 function sortWordsAndPhrases(words: WordOrPhrase[]): WordOrPhrase[] {
   words.sort((a: WordOrPhrase, b: WordOrPhrase): number => {

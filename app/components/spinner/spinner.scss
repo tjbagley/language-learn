@@ -1,0 +1,24 @@
+@use "../../variables";
+
+.spinner--small {
+  .spinner-main {
+    width: 20px;
+    height: 20px;
+    border-width: 2px;
+  }
+}
+
+.spinner-main {
+    width: 40px;
+    height: 40px;
+    border-style: solid;
+    border-radius: 50%;
+    border-width: 4px;
+    border-color: transparent variables.$color-neutral-05 variables.$color-neutral-05;
+    animation: spinner-spin 2s linear infinite;
+}
+
+@keyframes spinner-spin {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

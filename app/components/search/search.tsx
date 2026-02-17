@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
 import { search, selectSearchQuery, selectWordsBySearchQuery, setWordEditReturnRoute } from "~/store/slices/words-phrases.slice";
 import type { RootState } from "~/store/store";
-import { WordPhraseListView } from "../common/word-phrase/word-phrase-list-view";
+import { WordPhraseListView } from "../word-phrase/word-phrase-list-view";
 
 export interface SearchProps {
   addClick?: (wordOrPhraseId: string) => void;
@@ -32,7 +32,8 @@ export function Search(props: SearchProps) {
       }, 300);    
     };
 
-    const handleAddClick = () => {    
+    const handleAddClick = () => {   
+      dispatch(setWordEditReturnRoute({ route: "/words" })); 
       navigate("/words/new");   
     }
 

@@ -1,0 +1,96 @@
+import "./home-page.scss";
+import { useNavigate } from "react-router";
+import type { Route } from "../../+types/root";
+import type { ChangeEvent } from "react";
+import { ExportHelper } from "~/helpers/export.helper";
+import type { ExportModel } from "~/models/export.model";
+import { store } from "~/store/store";
+import { loadCategories } from "~/store/slices/categories.slice";
+import {
+  loadRecentlyLearntWordsAndPhrases,
+  loadWords,
+  setWhatToLearnListId,
+} from "~/store/slices/words-phrases.slice";
+import { loadWordLists } from "~/store/slices/word-lists.slice";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Language Learn" },
+    { name: "description", content: "Welcome to React Router!" },
+  ];
+}
+
+export default function HomePage() {
+  const navigate = useNavigate();
+
+  const handleNewLanguageClick = () => {
+    navigate("/words");
+  };
+
+  const handleFileUploadChange = (
+    event: ChangeEvent<HTMLInputElement>,
+  ): void => {
+    const file = event.target.files?.[0];
+    if (file) {
+      ExportHelper.lastLoadedFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const modelText = reader.result?.toString() ?? "";
+        const model: ExportModel = JSON.parse(modelText);
+        if (model?.categories && model?.language) {
+          if (model?.categories?.length > 0) {
+            store.dispatch(loadCategories(model.categories));
+          }
+          if (model?.language?.wordsOrPhrases?.length > 0) {
+            store.dispatch(loadWords(model.language.wordsOrPhrases));
+          }
+          if (
+            model?.language?.dialogues &&
+            model.language.dialogues.length > 0
+          ) {
+            store.dispatch(loadWordLists(model.language.dialogues));
+          }
+          if (
+            model?.language?.learn?.recentWordsAndPhrases &&
+            model.language.learn.recentWordsAndPhrases.length > 0
+          ) {
+            store.dispatch(
+              loadRecentlyLearntWordsAndPhrases(
+                model.language.learn.recentWordsAndPhrases,
+              ),
+            );
+          }
+          if (model?.language?.learn?.whatToLearnListId) {
+            store.dispatch(
+              setWhatToLearnListId(model.language.learn.whatToLearnListId),
+            );
+          } else {
+            store.dispatch(setWhatToLearnListId(""));
+          }
+          navigate("/words");
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+  return (
+    <main className="start-page">
+      <section className="centered-container">
+        <h1>Language Learn</h1>
+        <button onClick={handleNewLanguageClick} type="button">
+          New Language
+        </button>
+
+        <label htmlFor="file-upload" className="btn">
+          Load Language From File
+        </label>
+        <input
+          onChange={handleFileUploadChange}
+          className="start-page__file-input"
+          id="file-upload"
+          type="file"
+        />
+      </section>
+    </main>
+  );
+}

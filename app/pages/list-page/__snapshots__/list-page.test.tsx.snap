@@ -1,0 +1,199 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ListPage > matches snapshot 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <section
+        class="centered-container"
+      >
+        <form
+          class="word-list-form edit-form"
+        >
+          <input
+            name="id"
+            type="hidden"
+            value=""
+          />
+          <div
+            class="edit-form__row"
+          >
+            <label
+              for="value"
+            >
+              Description
+            </label>
+            <div>
+              <input
+                id="value"
+                name="description"
+              />
+              <div
+                class="form-error"
+              />
+            </div>
+          </div>
+          <div
+            class="search search--embedded"
+          >
+            <div
+              class="search__controls"
+            >
+              <div
+                class="search__field-wrapper"
+              >
+                <input
+                  class="search__field"
+                  placeholder="Search for word or phrase to add to list"
+                  type="text"
+                  value=""
+                />
+              </div>
+            </div>
+            <ul
+              class="list--no-row-click"
+            />
+          </div>
+          <div
+            class="edit-form__buttons"
+          >
+            <input
+              type="submit"
+              value="Save"
+            />
+            <input
+              type="button"
+              value="Cancel"
+            />
+          </div>
+        </form>
+      </section>
+    </div>
+  </body>,
+  "container": <div>
+    <section
+      class="centered-container"
+    >
+      <form
+        class="word-list-form edit-form"
+      >
+        <input
+          name="id"
+          type="hidden"
+          value=""
+        />
+        <div
+          class="edit-form__row"
+        >
+          <label
+            for="value"
+          >
+            Description
+          </label>
+          <div>
+            <input
+              id="value"
+              name="description"
+            />
+            <div
+              class="form-error"
+            />
+          </div>
+        </div>
+        <div
+          class="search search--embedded"
+        >
+          <div
+            class="search__controls"
+          >
+            <div
+              class="search__field-wrapper"
+            >
+              <input
+                class="search__field"
+                placeholder="Search for word or phrase to add to list"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <ul
+            class="list--no-row-click"
+          />
+        </div>
+        <div
+          class="edit-form__buttons"
+        >
+          <input
+            type="submit"
+            value="Save"
+          />
+          <input
+            type="button"
+            value="Cancel"
+          />
+        </div>
+      </form>
+    </section>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "store": {
+    "@@observable": [Function],
+    "dispatch": [Function],
+    "getState": [Function],
+    "replaceReducer": [Function],
+    "subscribe": [Function],
+  },
+  "unmount": [Function],
+}
+`;
