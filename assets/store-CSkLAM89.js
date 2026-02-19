@@ -1,0 +1,1 @@
+import{c as r}from"./redux-toolkit.modern-D-2niQ31.js";import{w as e}from"./words-phrases.slice-BXjJ2-U2.js";import{c as o}from"./categories.slice-Ci-6jPVA.js";import{w as s}from"./word-lists.slice-gWhQ8g7e.js";function t(c){return r({reducer:{wordsAndPhrases:e,categories:o,wordLists:s}})}const u=t();export{u as s};

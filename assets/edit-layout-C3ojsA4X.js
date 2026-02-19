@@ -1,0 +1,1 @@
+import{w as s,p as t,O as o}from"./chunk-ZYFC6VSF-Bd9_QtAq.js";function a(){return t.jsx("div",{children:t.jsx("main",{className:"edit-layout",children:t.jsx(o,{})})})}const i=s(a);export{i as default};
