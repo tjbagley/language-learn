@@ -93,6 +93,9 @@ main {
   @media (min-width: variables.$device-width-non-mobile) {
     padding-bottom: variables.$main-padding-bottom;
   }
+  &.edit-layout {
+    padding-top: 45px;
+  }
   section.centered-container {
     display: flex;
     flex-direction: column;
