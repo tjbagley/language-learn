@@ -1,0 +1,1 @@
+import{c as r}from"./local-storage.service-DkmsD0Al.js";import{w as e}from"./words-phrases.slice-BJQpcsGg.js";import{c as o}from"./categories.slice-pPft_Mks.js";import{w as s}from"./word-lists.slice-B9XEmjkR.js";function t(c){return r({reducer:{wordsAndPhrases:e,categories:o,wordLists:s}})}const u=t();export{u as s};
