@@ -8,7 +8,7 @@ import type { WordOrPhrase } from "~/models/word-or-phrase";
 export class ExportHelper {
   public static lastLoadedFileName: string = "";
 
-  public static export(words: WordOrPhrase[], categories: Category[], lists: WordList[], recentlyLearntWordsAndPhrases: string[], whatToLearnListId?: string): void {
+  public static getExportModel(words: WordOrPhrase[], categories: Category[], lists: WordList[], recentlyLearntWordsAndPhrases: string[], whatToLearnListId?: string): ExportModel {
     const model: ExportModel = {
       language: {
         wordsOrPhrases: words || [],
@@ -21,6 +21,11 @@ export class ExportHelper {
       categories: categories || [],
       exportDate: moment().format("YYYY-MM-DD")
     };
+    return model;
+  }
+
+  public static export(words: WordOrPhrase[], categories: Category[], lists: WordList[], recentlyLearntWordsAndPhrases: string[], whatToLearnListId?: string): void {
+    const model = this.getExportModel(words, categories, lists, recentlyLearntWordsAndPhrases, whatToLearnListId);
     const modelText = JSON.stringify(model);
     const blob = new Blob([modelText], { type: "text/json" });
     saveAs(blob, this.lastLoadedFileName ? this.lastLoadedFileName : `lang-learn.json`);

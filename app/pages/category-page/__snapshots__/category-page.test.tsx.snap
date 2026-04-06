@@ -22,7 +22,7 @@ exports[`CategoryPage > matches snapshot 1`] = `
             <label
               for="value"
             >
-              Description
+              Category description
             </label>
             <div>
               <input
@@ -68,7 +68,7 @@ exports[`CategoryPage > matches snapshot 1`] = `
           <label
             for="value"
           >
-            Description
+            Category description
           </label>
           <div>
             <input

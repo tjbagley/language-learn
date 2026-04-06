@@ -1,7 +1,7 @@
 import "./home-page.scss";
 import { useNavigate } from "react-router";
 import type { Route } from "../../+types/root";
-import type { ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { ExportHelper } from "~/helpers/export.helper";
 import type { ExportModel } from "~/models/export.model";
 import { store } from "~/store/store";
@@ -12,6 +12,7 @@ import {
   setWhatToLearnListId,
 } from "~/store/slices/words-phrases.slice";
 import { loadWordLists } from "~/store/slices/word-lists.slice";
+import { LocalStorageService } from "~/services/local-storage.service";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -22,6 +23,14 @@ export function meta({}: Route.MetaArgs) {
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [isDataInLocalStorage,] = useState(!!LocalStorageService.load());
+
+  useEffect(() => {
+    if (isDataInLocalStorage && typeof sessionStorage !== undefined && !sessionStorage.getItem('firstRedirect')) {
+      sessionStorage.setItem('firstRedirect', 'false');
+      navigate("/learn");
+    }
+  }, []);
 
   const handleNewLanguageClick = () => {
     navigate("/words");
@@ -73,12 +82,13 @@ export default function HomePage() {
       reader.readAsText(file);
     }
   };
+
   return (
     <main className="start-page">
       <section className="centered-container">
         <h1>Language Learn</h1>
         <button onClick={handleNewLanguageClick} type="button">
-          New Language
+          {isDataInLocalStorage ? 'Continue' : 'New Language'}
         </button>
 
         <label htmlFor="file-upload" className="btn">

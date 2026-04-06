@@ -39,7 +39,11 @@ export default function ListPage() {
     defaultValues: {
       id: initialWordList?.id || "",
       description: initialWordList ? initialWordList.description : "",
-      items: initialWordList?.items ? initialWordList.items : [],
+      items: initialWordList?.items ? initialWordList.items.map(i => ({
+        wordOrPhraseId: i.wordOrPhraseId,
+        actor: i.actor,
+        description: getWordOrPhraseDisplay(i.wordOrPhraseId)
+      })) : [],
     },
   });
 
@@ -86,7 +90,7 @@ export default function ListPage() {
   }
 
   function handleItemAddClick(wordOrPhraseId: string): void {
-    appendItem({ actor: "", wordOrPhraseId: wordOrPhraseId });
+    appendItem({ actor: "", description: getWordOrPhraseDisplay(wordOrPhraseId), wordOrPhraseId: wordOrPhraseId });
   }
 
   return (
@@ -97,7 +101,7 @@ export default function ListPage() {
       >
         <input type="hidden" {...register("id")} />
         <div className="edit-form__row">
-          <label htmlFor="value">Description</label>
+          <label htmlFor="value">List description</label>
           <div>
             <input
               id="value"
@@ -119,9 +123,9 @@ export default function ListPage() {
               {...register(`items.${index}.actor`)}
             />
             <div className="word-list-form__item-word-or-phrase">
-              {getWordOrPhraseDisplay(
-                getValues(`items.${index}.wordOrPhraseId`),
-              )}
+              {
+                getValues(`items.${index}.description`)
+              }
             </div>
             <input
               type="button"

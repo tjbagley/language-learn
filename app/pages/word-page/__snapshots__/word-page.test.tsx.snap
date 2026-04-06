@@ -40,7 +40,7 @@ exports[`WordPage > matches snapshot 1`] = `
             <label
               for="soundsLike"
             >
-              Sounds Like
+              Sounds like
             </label>
             <input
               id="soundsLike"
@@ -167,7 +167,7 @@ exports[`WordPage > matches snapshot 1`] = `
           <label
             for="soundsLike"
           >
-            Sounds Like
+            Sounds like
           </label>
           <input
             id="soundsLike"

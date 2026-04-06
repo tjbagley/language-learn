@@ -22,7 +22,7 @@ export default function CategoriesPage() {
   const handleCategoryClick = (id: string) => {
     navigate(`/category-view/${id}`);
   };
-
+  
   return (
     <section className="centered-container">
       <SectionHeader

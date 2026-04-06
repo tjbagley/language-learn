@@ -2,12 +2,15 @@ import { createSelector, createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../store';
 import type { Category } from '~/models/category';
+import { SaveService } from '~/services/save.service';
+import { LocalStorageService } from '~/services/local-storage.service';
 
 export interface CategoriesState {
   values: Category[];
 }
 
-const initialState: CategoriesState = {
+const localStorageData = LocalStorageService.load();
+const initialState: CategoriesState = localStorageData ? {values: localStorageData?.categories ?? []} : {
   values: [{
     id: '1',
     description: 'Noun'
@@ -39,6 +42,7 @@ export const CategoriesSlice = createSlice({
       }
       state.values.push(action.payload);
       state.values = sortCategories(state.values);
+      SaveService.notifySaveRequired();
     },
     updateCategory: (state, action: PayloadAction<Category>) => {
       const category = state.values.find(c => c.id === action.payload.id);
@@ -46,9 +50,11 @@ export const CategoriesSlice = createSlice({
         category.description = action.payload.description;      
       }
       state.values = sortCategories(state.values);
+      SaveService.notifySaveRequired();
     },
     removeCategory: (state, action: PayloadAction<string>) => {
       state.values = state.values.filter(c => c.id !== action.payload);
+      SaveService.notifySaveRequired();
     },
     loadCategories: (state, action: PayloadAction<Category[]>) => {
       state.values = action.payload;

@@ -10,6 +10,9 @@ import bookIcon from "./assets/book-outline.svg";
 import listIcon from "./assets/list-outline.svg";
 import categoriesIcon from "./assets/albums-outline.svg";
 import learnIcon from "./assets/star-outline.svg";
+import { useEffect } from "react";
+import { SaveService } from "./services/save.service";
+import { LocalStorageService } from "./services/local-storage.service";
 
 function DefaultLayout() {
   const categories = useSelector((state: RootState) => selectAllCategories(state));
@@ -17,6 +20,13 @@ function DefaultLayout() {
   const lists = useSelector((state: RootState) => selectAllWordLists(state));
   const recentlyLearntWordsAndPhrases = useSelector((state: RootState) => selectRecentlyLearntWordsAndPhrases(state));
   const whatToLearnListId = useSelector((state: RootState) => state.wordsAndPhrases.whatToLearnListId);
+
+  useEffect(() => {
+    SaveService.saveRequired.subscribe(() => {
+      const model = ExportHelper.getExportModel(words, categories, lists, recentlyLearntWordsAndPhrases, whatToLearnListId);
+      LocalStorageService.save(model);
+    });
+  }, []);
 
   const handleExport = () => {
     ExportHelper.export(words, categories, lists, recentlyLearntWordsAndPhrases, whatToLearnListId);

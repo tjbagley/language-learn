@@ -72,7 +72,7 @@ export default function CategoryPage() {
       >
         <input type="hidden" {...register("id")} />
         <div className="edit-form__row">
-          <label htmlFor="value">Description</label>
+          <label htmlFor="value">Category description</label>
           <div>
             <input
               id="value"

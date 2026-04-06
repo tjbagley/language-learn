@@ -108,7 +108,7 @@ export default function WordPage() {
         </div>
 
         <div className="edit-form__row">
-          <label htmlFor="soundsLike">Sounds Like</label>
+          <label htmlFor="soundsLike">Sounds like</label>
           <input id="soundsLike" {...register("soundsLike")} />
         </div>
 

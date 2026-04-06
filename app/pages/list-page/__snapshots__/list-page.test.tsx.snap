@@ -22,7 +22,7 @@ exports[`ListPage > matches snapshot 1`] = `
             <label
               for="value"
             >
-              Description
+              List description
             </label>
             <div>
               <input
@@ -89,7 +89,7 @@ exports[`ListPage > matches snapshot 1`] = `
           <label
             for="value"
           >
-            Description
+            List description
           </label>
           <div>
             <input
